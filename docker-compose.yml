@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  reply-generation:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8023:8023"
+    restart: always
+    labels:
+      - "com.aioapp.description=Reply generation service"
+      - "com.aioapp.vendor=AIOApp Inc."
