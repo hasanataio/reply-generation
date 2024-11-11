@@ -8,18 +8,16 @@ class responselength(str, Enum):
     long = "long" 
 
 class ContentResponse(BaseModel):
-    prompt: str
     content: dict
 
 class ContentRequest(BaseModel):
     review: str
-    ratings: int
+    ratings: str
     length: str
     food_items: str | list[str]
     customer_name: str
-    status: str
-    type: str
     additional_context:str
+    previous_replies: list[str]
 
 class ContentRatings(BaseModel):
     ratings: int

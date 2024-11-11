@@ -39,24 +39,18 @@ async def get_authorization_header(
 
 # API endpoint for generating content for emails
 @app.post('/generate_personalized_response', status_code=200)
-async def generate_content(request: ContentRequest, _auth_header: str = Depends(get_authorization_header)) -> ContentResponse | list[ContentResponse]:
+async def generate_content(request: ContentRequest, _auth_header: str = Depends(get_authorization_header)):
     review = request.review
     ratings = request.ratings
     length = request.length
     food_items = request.food_items
     customer_name = request.customer_name
-    status = request.status
-    type = request.type
     additional_context=request.additional_context
+    previous_replies=request.previous_replies
 
-    system_prompt,prompt = generate_personalized_response(review, ratings, length, food_items, customer_name, status, type,additional_context)
+    system_prompt,prompt = generate_personalized_response(review, ratings, length, food_items, customer_name,additional_context,previous_replies)
     content = responder_JSON(system_prompt,prompt)
-    content_generated = {
-        "prompt": prompt,
-        "content": content
-    }
-
-    return content_generated
+    return content
 
 @app.post('/generate_general_response', status_code=200)
 async def generate_content(request: ContentRatings, _auth_header: str = Depends(get_authorization_header)) -> ContentResponse | list[ContentResponse]:

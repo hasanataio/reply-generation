@@ -30,21 +30,22 @@ def generate_message_general(ratings, customer_name):
     return prompt.strip()
 
 # To generate a personalized message based on review, ratings and other information
-def generate_message_personalized(review, ratings, length, food_items, customer_name, status, type,additional_context):
+def generate_message_personalized(review, ratings, length, food_items, customer_name,additional_context,previous_replies):
 
     if str(length) == "short":
         length_prompt = f'''Message should strictly be maximum of 250 characters and minimum of 200 characters. '''
     else:
         length_prompt = f'''Mssage should strictly be maximum of 400r characters and minimum of 350 characters. '''
 
-    SYSTEM_PROMPT="""
+    SYSTEM_PROMPT=f"""
 You are an assistant responsible for generating personalized and thoughtful responses to restaurant reviews. Your goal is to show genuine appreciation for positive feedback or address and resolve concerns when the feedback is negative. You should tailor each response based on the specific details provided. Some inputs may contain extra details, such as menu items, bill amount, or a personalized message from the restaurateur. Use these details if they are available, but don't assume they will always be present.
 
 Elements of the Input:
 Review: A description of the customer’s experience, which may highlight specific aspects of the restaurant (e.g., food, service, ambiance).
-Rating: The customer’s rating (e.g., 1-5 stars).
-Customer Name: The name of the customer who left the review.
+Length: {length_prompt}
 Additional Details (Optional): These may include:
+    Rating: The customer’s rating (e.g., 1-5 stars).
+    Customer Name: The name of the customer who left the review.
     Menu Items: Specific dishes mentioned in the review.
     Bill Amount: The total bill, if the customer shared this.
     Personalized Message: A specific note from the restaurateur to include in your response.
@@ -64,13 +65,11 @@ Tone: Keep the tone warm, empathetic, and professional. Use a more formal tone f
     prompt = f'''
     I want you to generate reply for this:
     Review: {review},
-    Ratings: {ratings},
-    Length: {length_prompt},
+    {"Rating: "+ratings if ratings else ""} 
     {"Customer Name: "+customer_name if customer_name else ""} 
     {"Food Items: "+food_items if food_items else ""} 
-    {"Status: "+status if status else ""} 
-    {"Type: "+type if type else ""} 
     {"Here is additional context that need to be added: "+additional_context if additional_context else ""} 
+    {"These are previous replies which you have given but restauranter didn't like, now change these and make more better but don't use difficult and buzz words "+str(previous_replies) if previous_replies else ""}
     reply should be in form of json
     {{"response:""response here...."}}
     '''
