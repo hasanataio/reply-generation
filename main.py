@@ -18,7 +18,7 @@ app = FastAPI()
 
 bearer_auth = HTTPBearer(auto_error=False)
 
-api_keys = os.environ["OPENAI_API_KEY"]
+auth_keys = os.environ["AUTH_TOKEN"]
 
 # Authorization header
 async def get_authorization_header(
@@ -28,7 +28,7 @@ async def get_authorization_header(
     auth_header = request.headers.get("Authorization")
     logging.info(f"Auth header: {auth_header}")
     if auth_header:
-        if auth_header.removeprefix("Bearer ") not in api_keys:
+        if auth_header.removeprefix("Bearer ") not in auth_keys:
             raise HTTPException(
                 status_code=401, detail="Unauthorized"
             )
