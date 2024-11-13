@@ -1,7 +1,7 @@
 import os
 import logging
-from utils.schema import ContentRequest, ContentResponse, ContentRatings
-from utils.prompter import generate_general_response, generate_personalized_response
+from utils.schema import ContentRequest, ContentResponse, ContentRatings,ContentRequestTesting
+from utils.prompter import generate_general_response, generate_personalized_response,generate_personalized_response_testing
 from utils.responder import responder_JSON
 
 from dotenv import load_dotenv
@@ -49,6 +49,20 @@ async def generate_content(request: ContentRequest, _auth_header: str = Depends(
     previous_replies=request.previous_replies
 
     system_prompt,prompt = generate_personalized_response(review, ratings, length, food_items, customer_name,additional_context,previous_replies)
+    content = responder_JSON(system_prompt,prompt)
+    return content
+
+@app.post('/generate_personalized_response_testing', status_code=200)
+async def generate_content(request: ContentRequestTesting, _auth_header: str = Depends(get_authorization_header)):
+    review = request.review
+    ratings = request.ratings
+    length = request.length
+    food_items = request.food_items
+    customer_name = request.customer_name
+    additional_context=request.additional_context
+    previous_replies=request.previous_replies
+    prompt=request.prompt
+    system_prompt,prompt = generate_personalized_response_testing(review, ratings, length, food_items, customer_name,additional_context,previous_replies,prompt)
     content = responder_JSON(system_prompt,prompt)
     return content
 

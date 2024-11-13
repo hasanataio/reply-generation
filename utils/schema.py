@@ -22,3 +22,15 @@ class ContentRequest(BaseModel):
 class ContentRatings(BaseModel):
     ratings: int
     name: str
+
+
+
+class ContentRequestTesting(BaseModel):
+    review: str
+    ratings: str
+    length: str
+    food_items: str | list[str]
+    customer_name: str
+    additional_context:str
+    previous_replies: list[str]
+    prompt:str
