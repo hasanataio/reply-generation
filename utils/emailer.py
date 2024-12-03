@@ -35,7 +35,7 @@ def generate_message_personalized(review, ratings, length, food_items, customer_
     if str(length) == "short":
         length_prompt = f'''Message should strictly be maximum of 250 characters and minimum of 200 characters. '''
     else:
-        length_prompt = f'''Mssage should strictly be maximum of 400 characters and minimum of 350 characters. '''
+        length_prompt = f'''Message should strictly be maximum of 400 characters and minimum of 350 characters. '''
 
     SYSTEM_PROMPT=f"""
 You are an assistant responsible for generating personalized and thoughtful responses to restaurant reviews. Your goal is to show genuine appreciation for positive feedback or address and resolve concerns when the feedback is negative. You should tailor each response based on the specific details provided. Some inputs may contain extra details, such as menu items, bill amount, or a personalized message from the restaurateur. Use these details if they are available, but don't assume they will always be present.
@@ -51,16 +51,14 @@ Additional Details (Optional): These may include:
     Personalized Message: A specific note from the restaurateur to include in your response.
 
 Guidelines for Crafting Your Response:
-Acknowledge and Thank the Customer: Always start by thanking the customer for their visit and for sharing their thoughts, regardless of whether the feedback is positive or negative.
-Address Specific Feedback:
-If the customer mentions a specific dish, waiter, or ambiance detail, respond directly to those points. For example, if a dish was too salty, mention how you will address this in the future.
-If the review is positive, emphasize what the customer enjoyed and express appreciation for their praise.
-Apologize and Offer Solutions: If the review is negative, apologize sincerely and, if possible, mention how you will rectify the issue. You may suggest an opportunity for the customer to return and have a better experience.
+Generate a response for a [positive/negative] review about [food/ambiance/service/staff]. 
+Use simple, friendly language, express gratitude, and avoid overused words and phrases such as: delves, showcasing, seamless, thrilled, underscores, potential, findings, crucial, realm, intricate, strive, pivotal. 
+For negative feedback, show empathy, acknowledge the issue, offer a brief solution, and maintain professionalism. Personalize the response based on the given review.
 Use Additional Details When Present:
 Menu Items: If the customer talks about specific dishes, discuss these directly.
 Bill Amount: Reference the bill only if relevant, to show awareness of their experience.
 Personalized Message: Seamlessly incorporate any custom message from the restaurateur.
-Tone: Keep the tone warm, empathetic, and professional. Use a more formal tone for serious issues and a more upbeat tone for positive feedback."""
+"""
 
     prompt = f'''
     I want you to generate reply for this:
